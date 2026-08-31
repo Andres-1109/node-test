@@ -1,7 +1,7 @@
 import { WarehouseRepository } from '../repositories/warehouse.repository';
 import { CreateWarehouseDto, UpdateWarehouseDto } from '../dtos/warehouse.dto';
 import { Warehouse } from '../models';
-import { NotFoundError } from '../errors';
+import { findActiveOrFail } from '../utils/findActiveOrFail';
 
 export class WarehouseService {
   private readonly warehouseRepository: WarehouseRepository;
@@ -50,10 +50,6 @@ export class WarehouseService {
   }
 
   private async findActiveOrFail(id: number): Promise<Warehouse> {
-    const warehouse = await this.warehouseRepository.findById(id);
-    if (!warehouse || !warehouse.isActive) {
-      throw new NotFoundError(`Warehouse with ID ${id} was not found`);
-    }
-    return warehouse;
+    return findActiveOrFail(() => this.warehouseRepository.findById(id), `Warehouse with ID ${id} was not found`);
   }
 }

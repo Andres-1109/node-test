@@ -11,7 +11,11 @@ const DETAIL_INCLUDE = [
 
 export class SupplyRequestRepository {
   public async findAllActive(): Promise<SupplyRequest[]> {
-    return SupplyRequest.findAll({ where: { isDeleted: false }, include: DETAIL_INCLUDE, order: [['createdAt', 'DESC']] });
+    return SupplyRequest.findAll({
+      where: { isDeleted: false },
+      include: DETAIL_INCLUDE,
+      order: [['createdAt', 'DESC']],
+    });
   }
 
   public async findById(id: number): Promise<SupplyRequest | null> {

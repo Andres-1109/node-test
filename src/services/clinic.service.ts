@@ -1,7 +1,8 @@
 import { ClinicRepository } from '../repositories/clinic.repository';
 import { CreateClinicDto, UpdateClinicDto } from '../dtos/clinic.dto';
 import { Clinic } from '../models';
-import { ConflictError, NotFoundError } from '../errors';
+import { ConflictError } from '../errors';
+import { findActiveOrFail } from '../utils/findActiveOrFail';
 
 export class ClinicService {
   private readonly clinicRepository: ClinicRepository;
@@ -56,11 +57,7 @@ export class ClinicService {
   }
 
   private async findActiveOrFail(id: number): Promise<Clinic> {
-    const clinic = await this.clinicRepository.findById(id);
-    if (!clinic || !clinic.isActive) {
-      throw new NotFoundError(`Clinic with ID ${id} was not found`);
-    }
-    return clinic;
+    return findActiveOrFail(() => this.clinicRepository.findById(id), `Clinic with ID ${id} was not found`);
   }
 
   private async ensureTaxIdIsNotTaken(taxId: string): Promise<void> {

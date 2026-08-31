@@ -9,11 +9,7 @@ export const createSupplyRequestSchema = z.object({
 
 export type CreateSupplyRequestDto = z.infer<typeof createSupplyRequestSchema>;
 
-export const updateSupplyRequestSchema = z.object({
-  clinicId: z.number().int().positive('clinicId must be a positive integer').optional(),
-  medicationId: z.number().int().positive('medicationId must be a positive integer').optional(),
-  requestedQuantity: z.number().int().positive('requestedQuantity must be greater than zero').optional(),
-});
+export const updateSupplyRequestSchema = createSupplyRequestSchema.partial();
 
 export type UpdateSupplyRequestDto = z.infer<typeof updateSupplyRequestSchema>;
 

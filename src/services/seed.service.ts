@@ -34,7 +34,9 @@ export class SeedService {
         data.warehouses.map(({ name, location }) => ({ name, location })),
         transaction
       );
-      const warehouseIdByKey = new Map(data.warehouses.map((warehouse, index) => [warehouse.key, warehouses[index]!.id]));
+      const warehouseIdByKey = new Map(
+        data.warehouses.map((warehouse, index) => [warehouse.key, warehouses[index]!.id])
+      );
 
       const medicationsToInsert = data.medications.map((medication) => ({
         name: medication.name,

@@ -1,5 +1,6 @@
-import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model } from 'sequelize';
+import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model, NonAttribute } from 'sequelize';
 import { sequelize } from '../config/sequelize';
+import type { SupplyRequest } from './SupplyRequest';
 
 export class Clinic extends Model<InferAttributes<Clinic>, InferCreationAttributes<Clinic>> {
   declare id: CreationOptional<number>;
@@ -9,6 +10,8 @@ export class Clinic extends Model<InferAttributes<Clinic>, InferCreationAttribut
   declare isActive: CreationOptional<boolean>;
   declare readonly createdAt: CreationOptional<Date>;
   declare readonly updatedAt: CreationOptional<Date>;
+
+  declare supplyRequests?: NonAttribute<SupplyRequest[]>;
 }
 
 Clinic.init(
