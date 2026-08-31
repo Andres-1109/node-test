@@ -1,0 +1,89 @@
+{
+  "users": [
+    {
+      "name": "Laura Gomez",
+      "email": "laura.admin@riwimedicare.com",
+      "password": "Seed@1234",
+      "role": "administrator"
+    },
+    {
+      "name": "Carlos Ramirez",
+      "email": "carlos.admin@riwimedicare.com",
+      "password": "Seed@1234",
+      "role": "administrator"
+    },
+    {
+      "name": "Diana Torres",
+      "email": "diana.manager@riwimedicare.com",
+      "password": "Seed@1234",
+      "role": "requestManager"
+    },
+    {
+      "name": "Felipe Rojas",
+      "email": "felipe.manager@riwimedicare.com",
+      "password": "Seed@1234",
+      "role": "requestManager"
+    }
+  ],
+  "clinics": [
+    {
+      "name": "Clinica San Rafael",
+      "taxId": "TAX-900111222",
+      "managerName": "Marta Londono"
+    },
+    {
+      "name": "Clinica Los Andes",
+      "taxId": "TAX-900333444",
+      "managerName": "Julian Herrera"
+    },
+    {
+      "name": "Clinica del Norte",
+      "taxId": "TAX-900555666",
+      "managerName": "Sofia Vargas"
+    }
+  ],
+  "warehouses": [
+    {
+      "key": "central-warehouse",
+      "name": "Central Warehouse",
+      "location": "Medellin"
+    },
+    {
+      "key": "north-warehouse",
+      "name": "North Warehouse",
+      "location": "Bogota"
+    }
+  ],
+  "medications": [
+    {
+      "name": "Ibuprofen 400mg",
+      "description": "Anti-inflammatory painkiller, box of 30 tablets",
+      "warehouseKey": "central-warehouse",
+      "availableQuantity": 500
+    },
+    {
+      "name": "Amoxicillin 500mg",
+      "description": "Antibiotic capsules, box of 20",
+      "warehouseKey": "central-warehouse",
+      "availableQuantity": 300
+    },
+    {
+      "name": "Saline Solution 1L",
+      "description": "Intravenous saline solution bag",
+      "warehouseKey": "central-warehouse",
+      "availableQuantity": 150
+    },
+    {
+      "name": "Acetaminophen 500mg",
+      "description": "Fever and pain reliever, box of 24 tablets",
+      "warehouseKey": "north-warehouse",
+      "availableQuantity": 400
+    },
+    {
+      "name": "Surgical Gloves (Box)",
+      "description": "Latex-free surgical gloves, box of 100 units",
+      "warehouseKey": "north-warehouse",
+      "availableQuantity": 200
+    }
+  ]
+}
