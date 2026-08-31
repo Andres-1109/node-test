@@ -2,7 +2,7 @@ import { MedicationRepository } from '../repositories/medication.repository';
 import { WarehouseRepository } from '../repositories/warehouse.repository';
 import { CreateMedicationDto, UpdateMedicationDto } from '../dtos/medication.dto';
 import { Medication } from '../models';
-import { NotFoundError } from '../errors';
+import { findActiveOrFail } from '../utils/findActiveOrFail';
 
 export class MedicationService {
   private readonly medicationRepository: MedicationRepository;
@@ -61,17 +61,13 @@ export class MedicationService {
   }
 
   private async findActiveOrFail(id: number): Promise<Medication> {
-    const medication = await this.medicationRepository.findById(id);
-    if (!medication || !medication.isActive) {
-      throw new NotFoundError(`Medication with ID ${id} was not found`);
-    }
-    return medication;
+    return findActiveOrFail(() => this.medicationRepository.findById(id), `Medication with ID ${id} was not found`);
   }
 
   private async ensureWarehouseExists(warehouseId: number): Promise<void> {
-    const warehouse = await this.warehouseRepository.findById(warehouseId);
-    if (!warehouse || !warehouse.isActive) {
-      throw new NotFoundError(`Warehouse with ID ${warehouseId} was not found`);
-    }
+    await findActiveOrFail(
+      () => this.warehouseRepository.findById(warehouseId),
+      `Warehouse with ID ${warehouseId} was not found`
+    );
   }
 }

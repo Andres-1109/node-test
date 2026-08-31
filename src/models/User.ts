@@ -1,6 +1,7 @@
-import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model } from 'sequelize';
+import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model, NonAttribute } from 'sequelize';
 import { sequelize } from '../config/sequelize';
 import { USER_ROLES, UserRole } from './enums';
+import type { SupplyRequest } from './SupplyRequest';
 
 export class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare id: CreationOptional<number>;
@@ -10,6 +11,8 @@ export class User extends Model<InferAttributes<User>, InferCreationAttributes<U
   declare role: UserRole;
   declare readonly createdAt: CreationOptional<Date>;
   declare readonly updatedAt: CreationOptional<Date>;
+
+  declare supplyRequests?: NonAttribute<SupplyRequest[]>;
 }
 
 User.init(

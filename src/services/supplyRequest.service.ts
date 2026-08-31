@@ -9,6 +9,7 @@ import {
 import { Medication, SupplyRequest } from '../models';
 import { SupplyRequestStatus } from '../models/enums';
 import { ConflictError, NotFoundError } from '../errors';
+import { findActiveOrFail } from '../utils/findActiveOrFail';
 
 const VALID_STATUS_TRANSITIONS: Record<SupplyRequestStatus, SupplyRequestStatus[]> = {
   pending: ['approved', 'rejected'],
@@ -149,18 +150,14 @@ export class SupplyRequestService {
   }
 
   private async ensureActiveClinicExists(clinicId: number): Promise<void> {
-    const clinic = await this.clinicRepository.findById(clinicId);
-    if (!clinic || !clinic.isActive) {
-      throw new NotFoundError(`Clinic with ID ${clinicId} was not found`);
-    }
+    await findActiveOrFail(() => this.clinicRepository.findById(clinicId), `Clinic with ID ${clinicId} was not found`);
   }
 
   private async ensureActiveMedicationExists(medicationId: number): Promise<Medication> {
-    const medication = await this.medicationRepository.findById(medicationId);
-    if (!medication || !medication.isActive) {
-      throw new NotFoundError(`Medication with ID ${medicationId} was not found`);
-    }
-    return medication;
+    return findActiveOrFail(
+      () => this.medicationRepository.findById(medicationId),
+      `Medication with ID ${medicationId} was not found`
+    );
   }
 
   private ensureInventoryIsAvailable(medication: Medication, requestedQuantity: number): void {
