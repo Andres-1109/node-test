@@ -26,7 +26,7 @@ Node - Nest AM
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/Andres-1109
+git clone https://github.com/Andres-1109/node-test
 cd riwimedicare-plus-supply-request-api
 
 # 2. Install dependencies
@@ -143,7 +143,7 @@ The upload is validated (file type, JSON syntax, and shape) before anything is i
 
 ## 8. GitHub repository
 
-[FILL IN]
+https://github.com/Andres-1109/node-test
 
 ## 9. API documentation (`/api-docs`)
 
@@ -163,3 +163,19 @@ Every endpoint is documented there, including request/response examples for ever
 4. Paste the token in the value field (just the raw JWT, no `Bearer ` prefix — Swagger adds it for you) and click **Authorize**, then **Close**.
 5. Every request you send through "Try it out" will now include that token. Endpoints restricted to `administrator` (e.g. `POST /clinics`, `PUT /warehouses/{id}`, `DELETE /medications/{id}`, `PUT /supply-requests/{id}`) will return `403` if you try them while authorized as a `requestManager`. `administrator` has full access everywhere `requestManager` does (e.g. both can `POST /supply-requests` and `PUT /supply-requests/{id}/status`), so use the `requestManager` token specifically to confirm it gets `403` on the admin-only routes above.
 6. To switch roles, click **Authorize** again, then **Logout**, then paste the other role's token and **Authorize** again.
+
+## 10. Database backup
+
+To generate the .sql backup, dump the database to `.sql` with:
+
+```bash
+docker exec -t riwimedicare-plus-db pg_dump -U riwimedicare_user -d riwimedicare_plus > backup.sql
+```
+
+`pg_dump` runs inside the `db` container (the official Postgres image already includes it), connects over the local socket, and the dump — schema plus data — is redirected to `backup.sql` on the host. Adjust `-U`/`-d` if you changed `DB_USER`/`DB_NAME` in your `.env`.
+
+To restore it into an empty database:
+
+```bash
+docker exec -i riwimedicare-plus-db psql -U riwimedicare_user -d riwimedicare_plus < backup.sql
+```
