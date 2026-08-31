@@ -17,5 +17,27 @@ services:
       timeout: 5s
       retries: 5
 
+  api:
+    build: .
+    container_name: riwimedicare-plus-api
+    restart: unless-stopped
+    environment:
+      PORT: ${PORT}
+      NODE_ENV: production
+      # Inside the compose network the API reaches Postgres via the "db" service name,
+      # on its container-internal port (5432) -- not the host-mapped DB_PORT.
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN}
+    ports:
+      - "${PORT}:${PORT}"
+    depends_on:
+      db:
+        condition: service_healthy
+
 volumes:
   riwimedicare-plus-db-data:
